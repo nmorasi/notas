@@ -1,0 +1,105 @@
+\documentclass[12p]{article}
+\usepackage{amsmath}
+\usepackage{mathtools}
+
+\newcommand{\logicarg}[2]{
+  \begin{tabular}[t]{@{}l@{}}
+    #1 \\ \hline #2 
+  \end{tabular}
+}
+\begin{document}
+\section{manejo de errores}
+
+errores y la maquina k 
+Hay dos maneras de manejar errores. Estas son con los enunciados catch y con los enunciados handle.
+Los enunciados catch y handle se son utilizados cuando el enunciado se evalua utilizando la maquina K.
+Ahora, recuerda que las transiciones de la maquina k se parecian a la forma en la que se expresaba la semantica dinamica.
+
+pequeno recordatorio de los estados y semantica dinamica de la maquina k 
+la maquina k va a poder estar en 3 estados(En un principio son 2 , el de evaluar y devolver .Sin embargo ,cuando se quiere extender para
+que sea posible manejar errores , es necesario anadir un tercero).Donde cada estado esta especificado por una pila y una expresion. 
+el significado de cada uno de los estados es el siguiente: \\ 
+\begin{enumerate}
+
+\item $ P \gg e $ significa que la expresion e se va a evaluar con la pila P
+\item $ P \ll e $ significa que la expresion e se esta devolviendo. Con la pila P
+
+\item $ P \ll e $ es un estado especial . Este estado es para propagar el error y no permitir que se siga evaluando algo.
+\end{enumerate}
+
+sin manejo y con manejo ...
+Ahora, puedes tratar con los errores de dos maneras : La primera es sin manejar el error ,es decir la 
+expresion unicamente trata a los errores como valores. Para esto debes aumentar la gramatica de la siguiente 
+manera. 
+
+como se aumenta la gramatica del lenguaje cuando no quieres que maneje los errores 
+
+Si quieres que maneje los errores entonces hay dos formas. Con catch y con handle 
+con handle puedes regresar una cadena y con catch no 
+la sintaxis concreta se extiende de la siguiente manera 
+entonces para que sea posible manejar los errores tienes que dejar que error sea una expresion 
+ahora cuando el try trate de evaluar la expresion $ e_ 1$ y se encuentre con un error, va a tener una 
+expresion para cuando esto pase que va a ser $e _2 x$ 
+$e :: = \dots | error | \ try \ e _ 1 \ catch \ e_2$
+la sintaxis abstracta entonces es 
+$e :: = \dots | \ error \ | \ catch(e_1 , e_2 ) $
+la semantica dinamica de catch tiene tres reglas 
+la primera es para evaluar a catch por la izquierda hasta que sea un valor \\ 
+\logicarg{$e \rightarrow e'$}{$catch(e,e_2) \rightarrow catch(e',e_2)$} \\
+la segunda es para cuando la evaluacion de $e _ 1 $ fue un valor. En este caso , el bloque catch debe 
+regresar el valor al que se redujo $e _ 1$ \\ 
+\logicarg{}{$catch(v,e_2) \rightarrow v $} \\ 
+la tercera regla es para cuando la evaluacion de $e_ 1 $ haya terminado en un error. En este caso se tiene
+que proceder a evaluar a $e _2 $ para que se encargue de el error \\ 
+\logicarg{}{$catch(error,e_2) -> e_2$} \\ 
+
+Las diferencias entre el manejo de errores con catch y el manejo con handle 
+La principal diferencia es que si vas a manejar un error con catch,el error no lleva nada de informacion 
+osea cuando una evaluacion termina en error solo eso sabes , que hubo un error . En cambio cuando manejas 
+los errores por medio de handle puedes , de alguna manera , meter informacion en el error de manera que 
+cuando trates vayas a manejar el error puedas tomar informacion del error. 
+
+\subsection{como se extiende el lenguaje para que pueda soportar a handle}
+extension de la sintaxis concreta , la sintaxis abstracta , la semantica dinamica para 
+poder evaluar expresiones handle
+
+para que se pueda meter informacion en un error se debe crear un nuevo tipo de error que lleve una expresion 
+dentro , de forma que cuando se lanze un error esta expresion se evalue para que pueda ser pasada como 
+informacion al handle.
+entonces la primera extension para la sintaxis concreta seria algo como 
+$e ::= \dots | \ error e  $ y su extension en la sintaxis abstracta seria 
+$e :: = \dots | \ error(e)$ 
+
+
+
+En donde cambia con respecto a catch 
+la regla de la semantica dinamica que esta relacionada con el manejo de errores en catch es de la 
+siguiente forma \logicarg{}{$cathc(error,e_2) \rightarrow e2$} entonces lo que en esta regla debe cambiar 
+es que ahora , dado que sabemos cual es el error , primero lo tenemos que evaluar hasta que sea un valor.
+Una vez que la expresion dentro del error es evaluada tiene que ser pasada al handler . Ahora , aqui hay 
+otro problema , en las expresiones $catch(e_1,e_2)$ $e_2$ podia ser cualquier expreision , pero ahora que 
+el error le va a pasar informacion a la expresion que se va a encargar de el , esta expresion no puede ser 
+cualquiera. Debe ser una funcion de manera que al pasar el valor este sea aplicado a la funcion que tiene  
+el handler 
+osea cuando tratemos de evaluar $handle(error(e_1),\lambda x. e_2)$ primero tiene que evaluar a $e_1$
+\logicarg
+{$e_1 \rightarrow e_1'$}
+{$handle(error(e_1),\lambda x.e_2) \rightarrow handle(error(e_1',\lambda x.e_2))$}
+ahora cuando dentrr del error se tenga ya un valor , este puede ser aplicado a la funcion en el handler 
+que se formaliza con la siguiente regla
+\logicarg{}{$handle(error(v),\lambda x.e_2 ) \rightarrow e_2[x:=v]$}
+
+Error no tiene que ir una funcion necesariamente ya que no es la unica expresion en la que se encuentran 
+variables . Recuerda que existen expresiones que pueden tener una variable ligada similares a let 
+tambien como quieres tener ambos tipos para manejar errores entonces es un error ponerle a los errores el 
+mismo nombre . Corrigiendo esto tenemos que para extender la sintaxis abstracta y concreata se va a hacer 
+con 
+la sintaxis concreta 
+$e := \dots \ | raise e | handle \ e_1 \ with \ x \Rightarrow e_2$
+la sintaxis abstracta 
+$e : = \dots \ | raise(e) \ | handle(e_1,x.e_2) $
+luego la semantica dinamica con respecto al manejo del error es la siguiente 
+\logicarg{$e_1 \rightarrow e_1'$}{$handle(raise(e_1),x.e_2) \rightarrow handle(raise(e_1),x.e_2)$}
+ahora cuando la expresion dentro de raise sea evaluada se va a tener 
+\logicarg{}{$handle(raise(v),x.e_2) \rightarrow e_2[x:=v]$}
+\end{document}

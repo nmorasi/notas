@@ -1,0 +1,99 @@
+\documentclass[12p]{article}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{color}
+\newcommand{\rojo}[1]{
+  \textcolor{red}{#1}
+  }
+\begin{document}
+\section{programacion en c}
+\rojo{cual es la manera adecuada para regresar excepciones}
+
+\subsection{compilacion}
+gcc archivo.c -o archivo -lm 
+
+\subsection{implementacion de una cola en c}
+para implementar una cola lo primero que tienes que hacer es definirla en un archivo cabecera. Estos archivos son interfaces
+que permiten ver lo que el codigo hace pero no como lo hace.
+en el archivo cabecera va a ir la declaracion de la estructura y los metodos.
+que metodos tiene una cola?
+inicializacion,insercion y eliminacion.
+
+definicion de la estructura
+la lista va a tener inicio , final y longitud. inicio y final son de tipo nodo , entonces tambien tiene que ser creado el tipo nodo
+\begin{lstlisting}
+  typedef struct no {
+    char * elem ;
+    struct no sig;
+  }*nodo;
+\end{lstlisting}
+esta declaracion es similar a 
+\begin{lstlisting}
+  struct no {
+    char* elem;
+    struct no sig;
+  };
+  typedef struct no *nodo;
+\end{lstlisting}
+
+pero que hace la declaracion typedef
+con la declaracion typedef es posible asignar un nuevo nombre a un tipo.
+
+porque no es .. nodo simplemente en lugar de *nodo
+nodo es una estructura y *nodo es la referencia a una estructura osea directamente no puedes guardar en una variable
+un nodo sino la referencia a ese nodo.Nota que no estas haciendo un alias para la estructura , estas haciendo un alias para
+un apuntador a la estructura.
+ejemplo de esto
+\begin{lstlisting}
+  typedef char *cadena ;
+  int main(){
+    cadena st1 = "nieves";
+    printf("%s\n",st1);
+  }
+\end{lstlisting}
+en realidad se dio un alias no para char sino para los punteros que apuntan a char.
+
+Ahora . declaracion de los metodos.
+el primer metodo que se tiene que implementar es la inicializacion
+como inicializarias tu. bueno pues para inicializar una lista primero tienes que asignar la longitud a 0 , ... osea tienes apartar memoria
+para un nodo y apartar memoria del tamano de un nodo con malloc ...
+osea inicio = malloc(sizeof(nodo))
+final = malloc(sizeof(nodo)
+ademas con estos enunciados malloc(sizeof(nodo)) lo que estarias diciendo es calcula el tamano de nodo , nodo fue definido como un apuntador
+a una estructura como un estructura , entonces sizeof te va a regresar el tamano que necesita el apuntador a la estructura
+pero no el tamano que necesita la estructura. No deberia funcionar , lo que deberia funcionar es poner en size of el tamano de la estructura
+osea sizeof(no) no nodo \rojo{prueba}
+
+c asigna memoria pero no la limpia?
+que pasaria si asignas memoria y luego tratas de acceder a ella \rojo{probar}
+
+como funciona la funcion malloc
+la funcion malloc aparta un area de memoria del tamano del argumento que se le esta pasando y regresa la direccion de esa
+area de memoria 
+
+entonces lo primero que se hace para inicializar una lista es
+utilizar malloc para que reserve memoria pasandole como parametro
+el nombre de la estructura , no el puntero a la estructura.
+luego cada uno de sus campos tiene que ser asignado
+el inicio y el son apuntadores a una estructura de tipo nodo
+pero no es necesario apartar memoria , la memoria para estos se
+va a apartar en el metodo agregar. a la longitud si se le asigna 0
+
+ahora para crear el metodo agregar
+este metodo tiene que tomar un puntero a una lista y una cadena o
+puntero a caracter y no va a regresar nada
+primero , tenemos que estar de acuerdo por donde va a agregar
+en este caso va a agregar por la cola .
+entonces hay dos casos : cuando tiene solo un elemento la lista
+y cuando no tiene elementos
+cuando no tiene elementos entonces(en ambos casos se crea el nodo)
+el nodo que se creo va a ser el inicio y el final de la lista.cuando
+la lista tiene $\leq 1$ entonces , como se va a agregar por el final ,
+primero , el siguiente del final va a ser actualizado al nuevo nodo ,
+y el final va de la lista va a ser actualizado a el nuevo nodo 
+
+si el argumento de malloc es un puntero entonces cuanta memoria va
+a guardar
+
+\end{document}

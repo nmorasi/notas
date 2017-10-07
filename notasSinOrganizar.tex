@@ -1,0 +1,70 @@
+\documentclass[12p]{article}
+\begin{document}
+git te permite mantener documentos y una historia de estos.
+en dropbox sucede el siguiente problema.
+supon que tienes un archivo A en el que estas trabajando y estas
+trabajando en A desde una computadora $c_1$ y una computadora $c_2$.
+Supon que modificas a A en la computadora $c_1$ donde tienes internet
+de modo que los cambios realizados quedan en el servidor de Dropbox.
+Entonces si modificas el archivo A en $c_2$ sin que antes se hayan
+cargado del servidor entonces el problema es que los cambios realizados
+por $c_2$ van a quedarse en el servidor y el progreso de $c_1$ va
+a ser borrado.Esto puede en git evitarse con las branch. Las branch
+son clones de un proyecto que se descargan localmente , permiten
+que se edite algo para poder despues ,de manera segura, combinarlo
+con lo que tenia el servidor.
+
+un repositorio es similar a un directorio pero en un servidor
+un repositorio tiene por default una rama llamada master.
+Si quieres hacer cambios primero tienes que sacar un rama de master
+modificar esta rama y combinarla con master.
+pero entonces como se crea una rama.
+
+como se edita una rama
+un commit es un cambio salvado, con cada commit va asociado un
+mensaje que da informacion asociada al cambio.Poner mensajes en
+los commits es muy importante para tener una historia del proyecto.
+cual es la diferencia entre salvar un archivo simplemente y un commit
+salvar un archivo solamente guarda la informacion de ese archivo.
+Un commit es guardar la informacion de TODO el proyecto.Son como
+imagenes instantaneas del proyecto
+un head hace referencia al commit mas reciente de una branch
+una tag es similar a una head osea , hace referencia a una parte
+de la historia del proyecto
+
+basicamente que hace el comando checkout
+checkout permite que se cambie la rama en la que ahora se esta
+trabajando.cuando haces un checkout , el working directory cambia
+a donde branch esta apuntando es como moverte entre ramas.
+
+git fetch unicamente es para checar el repositorio original
+sin cambiar nada localmente.
+
+pull request
+los pull request es proponer tus cambios a la persona encargada
+para que decida si fusiona tu rama con la rama master.
+cuando haces un pull request se pueden ver las diferencias entre
+la rama propuesta y la rama principal
+y el paso final es incorporarlas.
+Sin embargo, todo esto fue en la pagina de git , ahora como lo puedo
+hacer desde mi maquina.
+osea ,lo que yo quiero es tener un proyecto que pueda manejar desde
+mis dos maquinas a pesar de que la pequena no tiene internet.
+del proyecto para
+como se unen dos ramas 
+
+los cambios localmente 
+las branches son utilizadas para modificar un documento
+
+ademas esto es lo principal pero tambien hay preguntas como
+puedo crear una rama de una rama ?
+sea M la rama master y B una rama cualquiera entonces si combine las
+ramas dandome la rama M' . puedo regresarme a M ?
+
+puedes descargar una copia de un repositorio git en tu maquina con
+git clone
+si yo tengo un directorio que quiero guardar en git como lo convierto
+en un repositorio 
+dentro del directorio de trabajo se pone
+git init esto crea un repositorio local 
+\end{document}

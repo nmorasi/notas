@@ -1,0 +1,236 @@
+\documentclass[12p]{article}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{algorithmic}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\newcommand{\rojo}[1]{
+  \textcolor{red}{#1}
+}
+  
+\begin{document}
+\section{algoritmo construccion de reed muler}
+los codigos reed muler de primer orden se definen para todo $m \geq 1 $
+recursivamente como
+$R(1,1)= {00,01,10,11} = Z _ 2 ^ 2$
+para $ m > 1 $
+como $R(1,m) = {(u,u),(u,u+1):u \in R(1,m-1)}$
+los parametros del codigo reed muler con $ m > 0$ son
+$[2^m , m + 1 , 2^{m-1}]$
+todas las palabras tienen peso $2^{m-1}$
+\subsection{los que no son de primer orden}
+
+\subsection{construccion (u,u+v)}
+$C = {(u,u+v): u \in C_1 ,v \in C_2}$ son un codigo
+$[2n,k_1 + k_2 , min(2d_1 , d_2)]_2$
+
+\section{codigo hamming}
+
+\section{cotas de griesmer y singleton}
+cota de griesmer
+sea $ C=[n,k,d]_ q $ un codigo donde $ k \geq 1 $ entonces
+$ n \geq \sum _ { i = 0 } ^ { k -1 }  \ceil*{\frac { d } {   q  ^ i}} $
+la demostracion se hace por induccion sobre k \\
+ejemplo de un codigo que cumple la cota de singleton pero no cumple la
+cota de Griesmer
+la cota de singleton dice que $n + 1 \geq k + d$
+entonces si escogemos un codigo que sea terciario con n = 11 y k = 6
+tenemos que por la cota de singleton $ 6 \geq d $  \\
+ahora hagamos veamos que $d \neq 6$ para ver esto
+usando la cota de griesmer tienes que \\
+$ 11 \geq 6 + 2 + 1 + 1 + 1 + 1$
+luego $11 \geq 12$ lo cual es una contradiccion entonces no puede
+haber un codigo que tenga esos parametros y una distancia minima igual a 6 
+\section{construccion x}
+sea C[n,k,d] sub q con D subc C un subcodigo n k - k' , d
+y un auxiliar con L , k' , delta sub q
+entonces existe un codigo n + L , k min (d' + delta , d')
+la matriz generadora de este codigo es
+\[
+  G =
+  \begin{bmatrix}
+    G _ D & 0 \\
+    G _ {C/D} & G _ E
+  \end{bmatrix}
+\]
+el espacio cociente se define con una relacion de equivalencia
+la relacion de equivalencia es $ x \equiv _ D y $ syss $ x - y \in D $ \\
+\rojo{pasarlo a latex}
+\subsection{ejemplo}
+primero sea $C \supset D$ donde $C = [n,K,d]$ y $ D = [n,k,D]$
+para que se utiliza 
+obviamente siempre es mas deseable que un codigo corrija mas errores
+entonces esta construccion te permite sacrificar la longitud de las palabras
+por una distancia minima mayor.
+Si quieres entonces tener un codigo con la misma distancia minima que D
+entonces tienes que buscar un codigo auxiliar que tenga como parametros
+$[l,K-k,D-d]$ para que te de un codigo $[n+l,k,D]$
+
+en el ejemplo el codigo C va ser  RM(1,3)
+los parametros de C son [8,4,4]
+D = span 11000011,00111100
+los parametros de D son [8,2,?]
+C/D me sirve para saber la dimension del codigo auxiliar
+ademas de la matriz generadora 
+en nuestro caso el codigo C/D son las clases de equivalencia
+{[00000000],[00001111],[01010101],[01011010]}
+la dimension entonces del codigo auxiliar va a ser 2 
+en nuestro caso el codigo auxiliar debe tener una dimension de 2 
+ademas debe ser binario y queremos que tenga la misma distancia minima
+que el codigo D
+\rojo{quien es la distancia minima del codigo D }
+\rojo{a que longitud lo queremos agrandar}
+
+\subsection{prueba}
+\rojo{terminarla}
+el espacio auxiliar y el espacio $ C / D $ tienen la misma dimension.
+las palabras del codigo mas grande son $ ( x | \phi(x)) \in F _ q ^{ n + l } \text{ for } x \in C $
+
+\section{codigos ciclicos}
+sobre la idea de un generador.
+suponte que tienes un conjunto de cosas , parece que es una idea importante el hecho de poder crear o expresar a ese conjunto
+con un conjunto finito de elementos.Por ejemplo, en el caso de los espacios vectoriales.Estos tienen una base y cada elemento del
+espacio vectorial puede ser expresado en terminos de esta.Y ahora en estos codigos ciclicos sucede lo mismo, solo que en este caso
+no va a ser un conjunto el que va a generar a el anillo sino un solo polinomio.Nota que la generacion no es la misma en todos los casos
+es decir , en el caso de los espacios vectoriales la generacion era por medio combinaciones lineales. En cambio , en los anillos
+la generacion es por medio de producto entre polinomios.
+Lo que mas me atrae o lo veo como algo interesante sobre esta idea de generar es que ,una vez que sabes que un conjunto o un algo genera
+a una estructura mas grande unicamente con operaciones,te puedes hacer la siguiente pregunta : dado un elemento que esta en el conjunto
+como , a partir del ente que genera , puedes generar a este?.En el caso de los espacios vectorales era solucionando un sistema de ecuaciones
+lineales de manera que te dieran los coeficientes por los que deben ser multiplicador los vectores de la base para generarlo. Pero en el caso
+de los anillos dado un polinomio x que esta en el anillo , y el polinomio generador , cual es el polinomio que multiplicado por el generador
+me va a dar el polinomio x
+$r_1 x_1 + r_2x_2 + \dots + r_n x_n ,r_i \in R x_i \in I $ pero esto que es? 
+
+los codigos ciclicos son los codigos que tienen algoritmos de decodificacion mas eficientes.
+Ademas los codigos ciclicos tambien son lineales.
+son caracterizados por la siguiente propiedad : si una palabra del codigo sea $(c_0,c_1 \dots , c_{n-1})$ esta en el codigo
+entonces $(c_{n-1},c_0,\dots ,c_{n-2})$ esta en el codigo.Osea si una palabra esta en el codigo al recorrerla a la derecha tambien va a
+ser una palabra del codigo.
+\subsection{que tienen que ver los anillos aqui}
+La propiedad que hace que utiles a los ideales es que se tragan a la multiplicacion
+Para empezar a crear un codigo ciclico se hace un isomorfismo $\phi : F _ q ^ n \rightarrow F_q [x] / <x^n - 1>$ definida como
+$\phi(c_0,\dots c_{n-1}) = c_0 + c_1 x + \dots + c _ {n-1} x ^ {n-1}$ . como es un isomorfismo entonces conservan la estructura.
+
+Lo que siempre sucede es que $F_q [x]/<x^n - 1 >$ es un anillo.
+ahora sea C un codigo talque $C \leq F _q ^ n $ entonces C es ciclico $\iff$ $F_q ^ n [x]/<x^n - 1>$ es 
+un dominio de ideales principales.
+
+El hecho de que $F_q[x]/<x^n - 1>$ sea un dominio de ideales principales nos dice que si tomamos un 
+C $\leq F _q ^ n $  entonces $\phi(C)$ va a ser un ideal principal.
+Ahora. nota lo siguiente toma un elemento que esta en tu codigo sea este elemento $c = (c_0,\dots,c_{n-1})$ 
+entonces aplicando a $\phi$ tenemos al polinomio $c_0 + c_1 x + \dots + c_{n-1}x ^{n-1}$ . Ahora ,si 
+multiplicamos por x entonces como $F_q[x] / <x^n - 1>$ es un dominio de ideales principales
+$x\cdot\phi(c)$  va a seguir estando en $\phi(C)$ . Ademas
+$(c_0 + c_1 x + \dots + c_{n-1}x ^{n-1})\cdot x  = xc_0 + c_1 x^2 + \dots + c _{n-1}x^{n}$ 
+pero en $F_q[x]/<x^n-1>$ el polinomio $x^n - 1 = 0 $
+y por lo tanto $x^ n = 1$ luego $c_0 x+ c_1 x^2 + \dots + c _{n-1}x^{n} = c_0 x + c_1x^2 + \dots + c_{n-1} $
+si aplicas $\phi^{-1}$ entonces tienes que $(c_{n-1},c_0,\cdots,c_{n-2}) \in C$ que es lo que se deseaba
+
+la idea de generador para un ideal principal es un poco distinta a la idea de generador en 
+un espacio vectorial.un conjunto es un generador de un espacio vectorial si el espacio vectorial es 
+igual a todas las combinaciones lineales entre ellos. A diferencia el generador de un ideal principal se 
+define como sigue $ C = <g(x)> = {a(x)g(x)| a(x) \in R_n}$ 
+Ahora, podemos suponer que g(x) es el de menor grado ademas en alguien se puede aplicar el algoritmo de 
+euclides . Apliquemoslo y tenemos que $d(x) = mcd(g(x),x^n - 1)$ luego $d(x)|g(x)$ pero como 
+g(x) es polinomio generador que tiene el menor grado entonces $d(x) = g(x)$ y no solo eso. Dado que 
+$d(x) = g(x)$ entonces $g(x)|x^n - 1$ de modo que $x^n - 1 = g(x)h(x)$ y entonces como $x^n - 1$ es 0 
+en $R_n$ entonces asi obtenemos al de verificacion. 
+Pero entonces $R_n$ ya no es un dominio entero??
+
+un dominio de ideales principales es un dominio de integridad en el que todos sus ideales son principales 
+un domio de integridad es un anillo que no tiene divisores de 0 es decir que si $ x \in R $ y $ y \in R $
+y ademas $x\dot y = 0 $ entonces $x = 0 \ o \ y = 0$
+
+
+Ahora nuestro codigo ademas de ser un espacio vectorial va a ser isomorfo a un ideal principal
+pero con esta informacion entonces ahora como sacamos a la base de nuestro codigo y como sacamos 
+a el elemento que va a generar ,recuerda que la generacion en el espacio vectorial y la 
+generacion en ideal principal no es la misma , a nuestro codigo en el ideal.
+
+
+En los codigos lineales una forma de sabes si una palabra pertenecia al codigo era con la matriz de 
+verificacion.En los codigos ciclicos de igual manera para saber si un polinomio esta en el codigo 
+se va a tener un polinomio talque al multiplicarlo va a ser 0.
+
+Ejemplo de un codigo (7,4) cuyo polinomio generador es $x^3 + x + 1$
+en el ejemplo lo que se hace es multiplicar el polinomio generador por cada uno de los polinomios de grador menor o igual a 3.
+que sean hasta 3 me imagino que tiene que ver con 4 que es la longitud de la palabra
+el codigo va a ser la imagen de la funcion inversa de $\phi$ en el anillo principal,este anillo principal va a ser modulo $x^ n - 1$
+osea alli debe estar la relacion de porque son los polinomio cuyo coeficiente es menor o igual a 3 .
+sabemos entonces que g es un generador y sabemos todos los posibles elementos de $F_q[x]/<x^ n -1>$ entonces si multiplicamos a
+g por todos los h tales que $h \in F _ q[x]/<x^ n - 1>$ vamos a tener el ideal , con la funcion inversa , se obtienen los elementos del codigo
+en la siguiente tabla , se multplican todos los polinomios que estan en $F_q[x]/<x^ 4 - 1>$ por el polinomio $g(x) = x ^ 3 + x + 1$
+$0
+1
+x
+(x + 1)
+x^2
+x^ 2 + 1$
+\rojo{seguir con esto}
+
+ejemplo de una permutacion y que es formalemente
+cuando un codigo es equivalente a otro
+explicacion en propias palabras que es un grupo automorfismo
+ejemplos de la notacion ciclica
+que es la traza 
+\section{background matematico}
+el automorfismo de frobenius es la fucion $\phi(x) = x^p$
+en un campo que no esta extendido el automorfismo de frobenius te da
+simplemente la identidad por el teorema de fermat
+en un campo extendido pasa lo siguiente segun este ejemplo
+extiende un campo GF[2] con un con un polinomio de grado 2
+el polinomio va a ser $X^2 - \beta$ entonces $X ^ 2 = \beta$ luego
+cada elemento del campo extendido se va a poder ver como
+a + bX
+aplicando el automorfismo de frobenius tienes que
+$ (a + bX)^p = a ^ p + b^pX^p$ luego
+porque $X^2 = \beta $
+$(a + bX)^p = (a + b \beta^{\frac{(p-1)}{2}}X)$
+utilizando el criterio de Euler$ \beta^{\frac{p-1}{2}} \equiv -1 (mod \ p)$
+tienes que $ a + bX = a - bX $
+
+ejemplo de un subanillo que no es un ideal 
+Z no es un ideal de Q ya que $ 1 \in Z , \ 1/2 \in Q  $  y $  1 \cdot 1/2 \not\in Z $ osea Z no absorbe la multiplicacion
+que significa el simbolo $Q[\sqrt{n}]$
+sea E el conjunto de los numeros pares . Entonces E es un anillo conmutativo pero E no tiene un elemento identidad
+el conjunto de los numeros impares no es un anillo porque no es cerrado bajo la suma
+
+un subanillo es un subconjunto de un anillo que
+es cerrado sobre la multiplicacion
+es cerrado sobre la suma
+si $s \in S$ entonces $-s \in S$
+\subsection{definiciones}
+un anillo es un conjunto que
+\section{codigos de hauffman}
+en estos codigos primero tienes que sacar la probabilidad de aparicion de un byte en un archivo 
+una vez que tienes las probabilidades, las ordenas , haces un arbol. 
+en el algoritmo se va a utilizar un arbol 
+haces un nodo por cada byte donde el peso del nodo va a ser la probabilidad de aparicion en el archivo 
+tomas los dos nodos que tienen el peso minimo 
+sumas sus probabilidades y acomodas el nuevo arbol en la lista de modo ordenado 
+cada rama arista izquierda del arbol va a tener un 1 , cada arista derecha del arbol va a tener un 0 
+para decodificar entonces tienes que recorrer el arbol ?
+pero y para codificar tendrias que hacer un recorrido hacia arriba
+el algoritmo para construir el arbol seria 
+
+crear heap h con probabilidades utilizando el archivo 
+\begin{algorithmic}
+  \WHILE{$h.size > 1$}
+  \STATE  $x \leftarrow h.sacar $
+  \STATE  $y \leftarrow h.sacar $
+  \STATE  $n \leftarrow new NodoHeap(x.prob + y.prob) $
+  \STATE  $h.meter(n)$
+  \ENDWHILE
+\end{algorithmic}
+\section{preguntas y cosas por hacer}
+\begin{enumerate}
+\item dame un subanillo que no sea un ideal \\ 
+\item dame un ideal principal que no sea nZ \\ 
+\item dame un ideal que no sea principal \\ 
+\item cual es la diferencia entre un ideal que es principal y uno que no lo es \\ 
+\item los codigos ciclicos tienen una matriz por ser lineales , como es su matriz ? \\
+\item para definir a un codigo ciclico se tuvo que definir una funcion $\phi$ con $\phi : F_q^ n \rightarrow F_q[x]/<x^n - 1>$
+  demuestra que $F _ q [x]/<x^n - 1 >$ es un ideal 
+\end{enumerate}
+\end{document}
